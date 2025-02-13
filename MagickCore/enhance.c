@@ -687,6 +687,11 @@ MagickExport MagickBooleanType CLAHEImage(Image *image,const size_t width,
       pixel_cache=RelinquishVirtualMemory(pixel_cache);
       return(MagickFalse);
     }
+  if (TransformImageColorspace(image,JabColorspace,exception) == MagickFalse)
+    {
+      pixel_cache=RelinquishVirtualMemory(pixel_cache);
+      return(MagickFalse);
+    }
   /*
     Initialize CLAHE pixels.
   */
