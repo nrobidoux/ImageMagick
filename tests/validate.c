@@ -524,6 +524,74 @@ static MagickBooleanType ValidateYUVToRGB()
   return(MagickTrue);
 }
 
+static MagickBooleanType ValidateJabToRGB()
+{
+  double
+    r,
+    g,
+    b;
+
+  (void) FormatLocaleFile(stdout,"  JabToRGB");
+  ConvertJabToRGB(88.456154/100.0,-54.671483/255+0.5,51.662818/255.0+0.5,
+    D65Illuminant,&r,&g,&b);
+  if ((fabs((double) r-0.545877*(double) QuantumRange) >= ReferenceEpsilon) ||
+      (fabs((double) g-0.966567*(double) QuantumRange) >= ReferenceEpsilon) ||
+      (fabs((double) b-0.463759*(double) QuantumRange) >= ReferenceEpsilon))
+    return(MagickFalse);
+  return(MagickTrue);
+}
+
+static MagickBooleanType ValidateRGBToJab()
+{
+  double
+    a,
+    b,
+    J;
+
+  (void) FormatLocaleFile(stdout,"  RGBToJab");
+  ConvertRGBToJab(0.545877*(double) QuantumRange,0.966567*(double)
+    QuantumRange,0.463759*(double) QuantumRange,D65Illuminant,&J,&a,&b);
+  if ((fabs(J-(88.456154/100.0)) >= ReferenceEpsilon) ||
+      (fabs(a-(-54.671483/255.0+0.5)) >= ReferenceEpsilon) ||
+      (fabs((double) b-(51.662818/255.0+0.5)) >= ReferenceEpsilon))
+    return(MagickFalse);
+  return(MagickTrue);
+}
+
+static MagickBooleanType ValidateJchToRGB()
+{
+  double
+    b,
+    g,
+    r;
+
+  (void) FormatLocaleFile(stdout,"  JchToRGB");
+  ConvertJCHabToRGB(88.456154/100.0,75.219797/255.0+0.5,136.620717/360.0,
+    D65Illuminant,&r,&g,&b);
+  if ((fabs((double) r-0.545877*(double) QuantumRange) >= ReferenceEpsilon) ||
+      (fabs((double) g-0.966567*(double) QuantumRange) >= ReferenceEpsilon) ||
+      (fabs((double) b-0.463759*(double) QuantumRange) >= ReferenceEpsilon))
+    return(MagickFalse);
+  return(MagickTrue);
+}
+
+static MagickBooleanType ValidateRGBToJch()
+{
+  double
+    c,
+    h,
+    J;
+
+  (void) FormatLocaleFile(stdout,"  RGBToJch");
+  ConvertRGBToLCHab(0.545877*(double) QuantumRange,0.966567*(double)
+    QuantumRange,0.463759*(double) QuantumRange,D65Illuminant,&L,&c,&h);
+  if ((fabs(J-88.456154/100.0) >= ReferenceEpsilon) ||
+      (fabs(c-(75.219797/255.0+0.5)) >= ReferenceEpsilon) ||
+      (fabs(h-(136.620717/255.0+0.5)) >= ReferenceEpsilon))
+    return(MagickFalse);
+  return(MagickTrue);
+}
+
 static size_t ValidateColorspaces(size_t *fails,ExceptionInfo *exception)
 {
   MagickBooleanType
@@ -557,7 +625,7 @@ static size_t ValidateColorspaces(size_t *fails,ExceptionInfo *exception)
   */
   (void) FormatLocaleFile(stdout,"validate colorspaces:\n");
   fail=0;
-  for (test=0; test < 26; test++)
+  for (test=0; test < 30; test++)
   {
     CatchException(exception);
     (void) FormatLocaleFile(stdout,"  test %.20g: ",(double) test);
@@ -589,6 +657,10 @@ static size_t ValidateColorspaces(size_t *fails,ExceptionInfo *exception)
       case 23: status=ValidateRGBToYPbPr(); break;
       case 24: status=ValidateYUVToRGB(); break;
       case 25: status=ValidateRGBToYUV(); break;
+      case 26: status=ValidateJabToRGB(); break;
+      case 27: status=ValidateRGBToJab(); break;
+      case 28: status=ValidateJchToRGB(); break;
+      case 29: status=ValidateRGBToJch(); break;
       default: status=MagickFalse;
     }
     if (status == MagickFalse)
