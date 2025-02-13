@@ -1317,6 +1317,14 @@ MagickExport MagickBooleanType ColorThresholdImage(Image *image,
         illuminant,&stop.red,&stop.green,&stop.blue);
       break;
     }
+    case JabColorspace:
+    {
+      ConvertRGBToJab(start_color->red,start_color->green,start_color->blue,
+        illuminant,&start.red,&start.green,&start.blue);
+      ConvertRGBToJab(stop_color->red,stop_color->green,stop_color->blue,
+        illuminant,&stop.red,&stop.green,&stop.blue);
+      break;
+    }
     default:
     {
       start.red*=QuantumScale;
