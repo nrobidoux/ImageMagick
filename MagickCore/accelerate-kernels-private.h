@@ -69,6 +69,10 @@ const char *accelerateKernels =
       HSLColorspace,
       HSVColorspace,           /* alias for HSB */
       HWBColorspace,
+      JabColorspace,
+      JCHColorspace,           /* alias for JCHuv */
+      JCHabColorspace,         /* Cylindrical (Polar) Jab */
+      JCHuvColorspace,         /* Cylindrical (Polar) Juv */
       LabColorspace,
       LCHColorspace,           /* alias for LCHuv */
       LCHabColorspace,         /* Cylindrical (Polar) Lab */
