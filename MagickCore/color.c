@@ -1210,11 +1210,15 @@ MagickExport void ConcatenateColorComponent(const PixelInfo *pixel,
       color=pixel->blue;
       if (IsHueCompatibleColorspace(pixel->colorspace) != MagickFalse)
         scale=100.0f;
-      if (pixel->colorspace == LabColorspace)
+      if ((pixel->colorspace == LabColorspace) ||
+          (pixel->colorspace == JabColorspace))
         color-=QuantumRange/2.0f;
       if ((pixel->colorspace == LCHColorspace) ||
           (pixel->colorspace == LCHabColorspace) ||
-          (pixel->colorspace == LCHuvColorspace))
+          (pixel->colorspace == LCHuvColorspace) ||
+          (pixel->colorspace == JCHColorspace) ||
+          (pixel->colorspace == JCHabColorspace) ||
+          (pixel->colorspace == JCHuvColorspace))
         color*=360.0f/255.0f;
       if (pixel->colorspace == XYZColorspace)
         color/=2.55f;
